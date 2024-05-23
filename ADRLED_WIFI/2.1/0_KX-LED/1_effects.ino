@@ -1,37 +1,3 @@
-void animation() {
-  switch (Mode) {
-  case 0: 
-    FastLED.setBrightness(0);
-    break;
-  case 1:
-    rainbowLoop();
-    break;
-  case 2:
-    rainbowFade();
-    break;
-  case 3:
-    firePerlin(false);
-    break;
-  case 4:
-    firePerlin(true);
-    break;
-  case 5:
-    emsLights();
-    break;
-  case 6:
-    StrobeRandomColors();
-    break;
-  case 7:
-    StaticColor();
-    break;
-  default:
-    break;
-  }
-
-  if (OnOff) FastLED.show();
-}
-
-
 void fillAll(CRGB rgbHue) {
   fill_solid(leds, NUM_LEDS, rgbHue);
   FastLED.show();
@@ -191,4 +157,38 @@ void StrobeRandomColors() {
 
 void StaticColor() {
   fill_solid(leds, NUM_LEDS, CHSV(StaticHueAll, StaticSatAll, 255));
+}
+
+
+void animation() {
+  switch (Mode) {
+  case 0: 
+    FastLED.setBrightness(0);
+    break;
+  case 1:
+    rainbowLoop();
+    break;
+  case 2:
+    rainbowFade();
+    break;
+  case 3:
+    firePerlin(false);
+    break;
+  case 4:
+    firePerlin(true);
+    break;
+  case 5:
+    emsLights();
+    break;
+  case 6:
+    StrobeRandomColors();
+    break;
+  case 7:
+    StaticColor();
+    break;
+  default:
+    break;
+  }
+
+  if (OnOff) FastLED.show();
 }
