@@ -178,6 +178,7 @@ void parseDataString(String data) {
 
 void getDataResponse() {
   String replyBuffer = addNetworkKey(replyBuffer);
+  replyBuffer += "GET_DATA:";
 
   replyBuffer += MAX_CURRENT; replyBuffer += ";";
   replyBuffer += OnOff; replyBuffer += ";";
