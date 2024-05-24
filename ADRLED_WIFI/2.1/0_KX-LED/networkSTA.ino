@@ -105,6 +105,7 @@ void parseDataString(String data) {
   else if (data.indexOf("Brightness=") != -1) {
     data.remove(0, data.indexOf("=")+1);  
     Brightness = data.toInt();
+    FastLED.setBrightness(Brightness);
   }
 
   else if (data.indexOf("RainbowLoopSpeed=") != -1) {
@@ -127,6 +128,10 @@ void parseDataString(String data) {
   else if (data.indexOf("emsLightsSpeed=") != -1) {
     data.remove(0, data.indexOf("=")+1);
     emsLightsSpeed = data.toInt();
+  }
+  else if (data.indexOf("rusLightsSpeed=") != -1) {
+    data.remove(0, data.indexOf("=")+1);
+    rusLightsSpeed = data.toInt();
   }
   else if (data.indexOf("StaticHueAll=") != -1) {
     data.remove(0, data.indexOf("=")+1);
@@ -196,7 +201,8 @@ void getDataResponse() {
   replyBuffer += FireHueStart; replyBuffer += ";";
   replyBuffer += FireMinBrightness; replyBuffer += ";";
   replyBuffer += FireMinSaturation; replyBuffer += ";";
-  replyBuffer += FireMaxSaturation; replyBuffer += "%";
+  replyBuffer += FireMaxSaturation; replyBuffer += ";";
+  replyBuffer += rusLightsSpeed; replyBuffer += "%";
 
   udp.beginPacket(udpSendAddress, udpPort);
   udp.print(replyBuffer.c_str());

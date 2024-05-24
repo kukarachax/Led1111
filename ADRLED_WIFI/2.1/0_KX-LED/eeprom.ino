@@ -65,6 +65,7 @@ void updEEPROM() {
   EEPROM.put(152, Mode);
   EEPROM.put(156, OnOff);
   EEPROM.put(160, MAX_CURRENT);
+  EEPROM.put(164, rusLightsSpeed);
 
   EEPROM.commit();
 }
@@ -87,4 +88,5 @@ void getEEPROM() {
   EEPROM.get(152, Mode);
   EEPROM.get(156, OnOff);
   EEPROM.get(160, MAX_CURRENT);
+  EEPROM.get(164, rusLightsSpeed);
 }

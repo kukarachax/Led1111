@@ -1,3 +1,34 @@
+uint32_t tmrPaintWBR;
+int idexWBR;
+
+int get_delta(int leds_count, int colors_count) {
+  return int(leds_count / colors_count);
+}
+
+int shift_index(int current_index, int delta, int leds_count) {
+  return (current_index + delta) % leds_count;
+}
+
+void increment_index() {
+  if (idexWBR++ >= NUM_LEDS) idexWBR = 0;
+}
+
+void paintWBR() {
+  if (millis() - tmrPaintWBR > rusLightsSpeed) {
+    tmrPaintWBR = millis();
+    increment_index();
+
+    int delta = get_delta(NUM_LEDS, 3);
+    int whiteIndex = idexWBR;
+    int blueIndex = shift_index(whiteIndex, delta, NUM_LEDS);
+    int redIndex = shift_index(blueIndex, delta, NUM_LEDS);
+
+    leds[whiteIndex].setRGB(255, 255, 255);
+    leds[blueIndex].setRGB(0, 0, 255);
+    leds[redIndex].setRGB(255, 0, 0);
+  }
+}
+
 void fillAll(CRGB rgbHue) {
   fill_solid(leds, NUM_LEDS, rgbHue);
   FastLED.show();
@@ -21,7 +52,8 @@ void StrobeAll(CRGB strobeHue1, CRGB strobeHue2, int delayStr, uint8_t amount) {
 
 // ONOFF FADE EFFECT ------------------
 void effectFadeOn() {
-  if (!OnOff) {
+  if (!OnOff && !TempOff) {
+    TempOff = true;
     for (uint8_t i = 0; i < Brightness; i+=5) {
       animation();
       FastLED.setBrightness(i);
@@ -31,12 +63,14 @@ void effectFadeOn() {
 
   FastLED.setBrightness(Brightness);
   FastLED.show();
+  TempOff = false;
   OnOff = true;
 }
 
 void effectFadeOff() {
-  if (OnOff) {
-    for (uint8_t i = Brightness; i > 0; i-=5) {
+  if (OnOff && !TempOn) {
+    TempOn = true;
+    for (int i = Brightness; i > 5; i-=5) {
       animation();
       FastLED.setBrightness(i);
       FastLED.show();
@@ -45,6 +79,7 @@ void effectFadeOff() {
   
   FastLED.setBrightness(0);
   FastLED.show();
+  TempOn = false;
   OnOff = false;
 }
 // ONOFF FADE EFFECT ------------------
@@ -55,7 +90,6 @@ uint32_t tmrRainbowFade;
 int ihue, rainbowFadeIdex;
 
 void rainbowFade() {
-  
   if (millis() - tmrRainbowFade > RainbowFadeSpeed) {
     tmrRainbowFade = millis();
     ihue++;
@@ -181,9 +215,12 @@ void animation() {
     emsLights();
     break;
   case 6:
-    StrobeRandomColors();
+    paintWBR();
     break;
   case 7:
+    StrobeRandomColors();
+    break;
+  case 8:
     StaticColor();
     break;
   default:

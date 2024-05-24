@@ -18,6 +18,8 @@ String wifiSsid = "";
 String wifiPassword = "";
 
 bool OnOff = true;
+bool TempOn = false;
+bool TempOff = false;
 int MAX_CURRENT = 10000;
 uint8_t Brightness = 255;
 uint8_t Mode = 1;
@@ -27,6 +29,7 @@ int RainbowLoopSpeed = 5;
 int RainbowFadeSpeed = 100;
 int StrobeRandomColorsSpeed = 100;
 int emsLightsSpeed = 10;
+int rusLightsSpeed = 10;
 uint8_t StaticHueAll = 255;
 uint8_t StaticSatAll = 255;
 
